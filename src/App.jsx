@@ -1,10 +1,30 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const pattern = [false,false,true,false,true,false,true,false,false];
+  const [arr,setArr] = useState(new Array(9).fill(false));
+
+  const handleClick = (index) => {
+    const newArr = [...arr];
+    newArr[index] = !newArr[index]; 
+    setArr(newArr);
+  }
+
+  useEffect(() => {
+    checkEquality(arr, pattern);
+  },[arr]);
+
+  const checkEquality = (arr1,arr2) => {
+    for (let i = 0; i < arr1.length; i++) {
+      if (arr1[i] !== arr2[i]) {
+        return;
+      }
+    }
+    console.log('Arrays are equal');
+  }
 
   return (
     <>
@@ -17,13 +37,10 @@ function App() {
         </a>
       </div>
       <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div className='grid grid-cols-3'>
+      {arr.map((val,index) => (
+        <div onClick={() => handleClick(index)} className="h-8 border border-black" key={index}>{val==true?"x":" "}</div>
+      ))}
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
