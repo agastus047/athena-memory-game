@@ -35,7 +35,7 @@ function Preview({initTime,pattern}) {
 
 function App() {
 
-  const randomNum = Math.floor(Math.random() * 6);
+  const [randomNum,setRandomNum] = useState(Math.floor(Math.random() * 6));
   const pattern = patterns[randomNum];
 
   const [arr,setArr] = useState(new Array(25).fill(false));
@@ -49,9 +49,11 @@ function App() {
   }, [preview]);
 
   const handleClick = (index) => {
-    const newArr = [...arr];
-    newArr[index] = !newArr[index]; 
-    setArr(newArr);
+    setArr((prevArr) => {
+      const newArr = [...prevArr];
+      newArr[index] = !newArr[index];
+      return newArr;
+    });
   }
 
   useEffect(()=> {
