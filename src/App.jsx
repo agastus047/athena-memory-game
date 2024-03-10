@@ -1,7 +1,14 @@
 import { useEffect, useState,useRef } from 'react'
 import './App.css'
 
-const pattern = [false,false,true,false,true,false,true,false,false];
+const patterns =[
+                 [false,false,false,false,false,true,true,false,false,false,false,false,false,true,false,false,true,false,true,false,false,false,false,false,false],
+                 [false,false,false,false,true,false,false,true,false,false,false,false,false,true,true,false,false,false,false,false,true,false,false,false,false],
+                 [false,false,false,false,true,false,false,false,false,false,true,false,false,false,true,false,false,true,false,false,false,false,true,false,false],
+                 [false,false,false,false,false,false,false,false,true,false,false,true,false,false,false,false,false,true,true,false,false,false,true,false,false],
+                 [true,false,false,false,true,false,false,true,false,false,true,false,true,false,false,false,false,false,false,false,false,false,false,false,false],
+                 [false,false,false,false,false,false,true,false,false,true,true,false,false,false,true,false,false,true,false,false,false,false,false,false,false]
+                ];
 
 function Preview({initTime,pattern}) {
   const [time,setTime] = useState(initTime);
@@ -17,9 +24,9 @@ function Preview({initTime,pattern}) {
     <div className='mb-10'>
       <div>Game starts in</div>
       <div>{time}</div>
-      <div className='grid grid-cols-3'>
+      <div className='grid grid-cols-5'>
       {pattern.map((val,index) => (
-        <div className="h-8 border border-black" key={index}>{val==true?"x":" "}</div>
+        <div className="h-14 border border-black flex justify-center items-center text-xl" key={index}>{val==true?"x":" "}</div>
       ))}
       </div>
     </div>
@@ -27,7 +34,11 @@ function Preview({initTime,pattern}) {
 }
 
 function App() {
-  const [arr,setArr] = useState(new Array(9).fill(false));
+
+  const randomNum = Math.floor(Math.random() * 6);
+  const pattern = patterns[randomNum];
+
+  const [arr,setArr] = useState(new Array(25).fill(false));
 
   const [preview,setPreview] = useState("preview");
 
@@ -55,7 +66,7 @@ function App() {
       if(previewRef.current==="play") {
         setPreview("timeout");
       }
-    },10000);
+    },15000);
 
     return () => {
       clearTimeout(timer);
@@ -81,9 +92,9 @@ function App() {
       <h1 className='mb-5'>Memory Game</h1>
       {preview==="preview" && <Preview initTime={5} pattern={pattern}/>} 
       {preview==="play" && 
-        <div className='grid grid-cols-3'>
+        <div className='grid grid-cols-5'>
         {arr.map((val,index) => (
-          <div onClick={() => handleClick(index)} className="h-8 border border-black" key={index}>{val==true?"x":" "}</div>
+          <div onClick={() => handleClick(index)} className="h-14 border border-black flex justify-center items-center text-xl" key={index}>{val==true?"x":" "}</div>
         ))}
         </div>
       }
